@@ -1,7 +1,16 @@
 function render(todos){
-	let liStr = ''
+	let styleStrikeThrough = '';
+	let checked = '';
+	let liStr = '';
+
 	todos.forEach(todo => {
-		liStr += `<li><span>${todo.id}</span>.<span>${todo.title}</span>-<span>${todo.completed}</span><button data-update-id=${todo.id} data-title-todo=${todo.title}>update</button><button data-id=${todo.id}>X</button></li> `
+		styleStrikeThrough = '';
+		checked = '';
+		if (todo.completed === true) {
+			styleStrikeThrough = ' class="strikethrough" ';
+			checked = 'checked';
+		}
+		liStr += `<li><span>${todo.id}</span>.<span ${styleStrikeThrough} >${todo.title}</span>-<span>${todo.completed}</span><input type='checkbox' data-update-id=${todo.id} data-title-todo=${todo.title} data-checked=${checked} ${checked}/><input class="img" type="image" src="trash.png" data-id=${todo.id} /></li> `
 	});
 
 	dom.totalItems.innerHTML = "total items: " +todos.length;
@@ -71,10 +80,10 @@ function add_todo(todoTitle) {
 	})
 }
 
-function update_todo(id, todoTitle) {
+function update_todo(id, todoTitle, completed) {
 	const todo = {
 		'title': todoTitle,
-		'completed': true
+		'completed': completed
 	};
 
 	fetch(api + '/todos/'+id, {
@@ -85,6 +94,7 @@ function update_todo(id, todoTitle) {
 		body: JSON.stringify(todo)
 	})
 	.then(res => {
+		get_todos(api + '/todos');
 		return processResponse(res);
 	}).catch(err => {
 		console.log(err);
@@ -95,7 +105,7 @@ const dom = {
 	todos: document.querySelector('.todos'),
 	todoInput: document.querySelector('.add-todo>input'),
 	btnAdd: document.querySelector('#btn-add'),
-	totalItems: document.getElementsByClassName('total-items')[0],
+	totalItems: document.getElementsByClassName('total-items')[0],	
 }
 
 api = 'http://localhost:3000'
@@ -108,18 +118,35 @@ window.onload = function (e) {
 
 dom.todos.addEventListener('click', function (e) {
 	// conrinue if e.target  is button
-	if (e.target.tagName === 'BUTTON') {
+	if (e.target.type === 'image') {
 		if(e.target.dataset.id !== undefined){
 			console.log(`DELETE>....`,);
-			delete_todo(e.target.dataset.id)
-		} else if(e.target.dataset.updateId !== undefined && e.target.dataset.titleTodo !== undefined){
-			console.log(`Update>....`,);
-			update_todo(e.target.dataset.updateId, e.target.dataset.titleTodo)
+			delete_todo(e.target.dataset.id);
 		}
-
+	} else if (e.target.type === 'checkbox') {
+		if (e.target.dataset.updateId !== undefined && e.target.dataset.titleTodo !== undefined) {
+			console.log(`Update>....`,);
+			let completed = true;
+			if(e.target.dataset.checked === 'checked'){
+				console.log('popout button');
+				completed = false;
+			}
+			console.log(e.target);
+			update_todo(e.target.dataset.updateId, e.target.dataset.titleTodo, completed);
+		}
 	}
 
+	
+
+	// if(e.target.dataset.updateId !== undefined && e.target.dataset.titleTodo !== undefined){
+	// 	console.log(`Update>....`,);
+		
+	// 	update_todo(e.target.dataset.updateId, e.target.dataset.titleTodo);
+	// }
+
 })
+
+
 
 dom.btnAdd.addEventListener('click', function (e) {
 	const todoTitle = dom.todoInput.value;
