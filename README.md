@@ -4,10 +4,10 @@ Created project TodoApp in new init git repo
 # Solutions:
 
 # Theme: Hands on HTTP Requests with fake JSON REST server
-## taskTheFactoryAsMechanismToEnforceEncapsulation folder
-Solution of the TASK TodoApp: The Factory as mechanism to enforce encapsulation
+## handsOnHTTPrequests folder
 
-- Solution of the Task1 (printAllWords.js):
+
+- Solution of the TASK TodoApp (directory "handsOnHTTPrequests"): Created project TodoApp
 ```
 
 Description:
@@ -19,3 +19,8 @@ Implement the minimum functionalities:
 - Change and show completed (competed:true) todo.
 
 ```
+
+- Please Install JSON Server
+command: npm install -g json-server
+- Please Start JSON Server in directory "handsOnHTTPrequests"
+command: npx json-server --watch back-end/db.json
