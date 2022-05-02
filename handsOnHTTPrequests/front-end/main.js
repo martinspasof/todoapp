@@ -10,11 +10,14 @@ function render(todos){
 			styleStrikeThrough = ' class="strikethrough" ';
 			checked = 'checked';
 		}
-		liStr += `<li><span>${todo.id}</span>.<span ${styleStrikeThrough} >${todo.title}</span>-<span>${todo.completed}</span><input type='checkbox' data-update-id=${todo.id} data-title-todo=${todo.title} data-checked=${checked} ${checked}/><input class="img" type="image" src="trash.png" data-id=${todo.id} /></li> `
+		liStr += `<li><span>${todo.id}</span>. 
+		<span ${styleStrikeThrough} >${todo.title}</span> 
+		<input type='checkbox' data-update-id=${todo.id} data-title-todo=${todo.title} data-checked=${checked} ${checked}/>
+		<input class="img" type="image" src="trash.png" data-id=${todo.id} />
+		</li> `;
 	});
 
-	dom.totalItems.innerHTML = "total items: " +todos.length;
-
+	dom.totalItems.innerHTML = "total items: " + todos.length;
 	dom.todos.innerHTML = liStr;
 }
 
@@ -25,13 +28,11 @@ function get_todos(url) {
 		})
 		.then(data => {
 			todos = [...data];
-			render(todos);			
-		}).then(data => {
-			console.log(data);			
-		}).catch(err => {
+			render(todos);
+		})
+		.catch(err => {
 			console.log(err);
 		})
-
 }
 
 function processResponse(r) {
@@ -46,11 +47,14 @@ function processResponse(r) {
 function delete_todo(id) {
 	fetch(api + '/todos/' + id, {
 		method: 'DELETE'
-	}).then(res => {
+	})
+	.then(res => {
 		return processResponse(res);
-	}).then(() => {
+	})
+	.then(() => {
 		get_todos(api + '/todos');
-	}).catch(err => {
+	})
+	.catch(err => {
 		console.log(err);
 	})
 
@@ -75,7 +79,8 @@ function add_todo(todoTitle) {
 	.then(todo => {
 		todos.push(todo);
 		render(todos);
-	}).catch(err => {
+	})
+	.catch(err => {
 		console.log(err);
 	})
 }
@@ -110,47 +115,32 @@ const dom = {
 
 api = 'http://localhost:3000'
 
-todos = []
+todos = [];
 
 window.onload = function (e) {
 	get_todos(api + '/todos');
 }
 
 dom.todos.addEventListener('click', function (e) {
-	// conrinue if e.target  is button
 	if (e.target.type === 'image') {
 		if(e.target.dataset.id !== undefined){
-			console.log(`DELETE>....`,);
 			delete_todo(e.target.dataset.id);
 		}
 	} else if (e.target.type === 'checkbox') {
 		if (e.target.dataset.updateId !== undefined && e.target.dataset.titleTodo !== undefined) {
-			console.log(`Update>....`,);
 			let completed = true;
 			if(e.target.dataset.checked === 'checked'){
-				console.log('popout button');
 				completed = false;
-			}
-			console.log(e.target);
+			}			
 			update_todo(e.target.dataset.updateId, e.target.dataset.titleTodo, completed);
 		}
 	}
-
-	
-
-	// if(e.target.dataset.updateId !== undefined && e.target.dataset.titleTodo !== undefined){
-	// 	console.log(`Update>....`,);
-		
-	// 	update_todo(e.target.dataset.updateId, e.target.dataset.titleTodo);
-	// }
-
 })
 
 
 
 dom.btnAdd.addEventListener('click', function (e) {
 	const todoTitle = dom.todoInput.value;
-	console.log(todoTitle);
 	add_todo(todoTitle);
 })
 
