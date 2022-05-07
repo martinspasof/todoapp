@@ -24,3 +24,14 @@ Implement the minimum functionalities:
 command: npm install -g json-server
 - Please Start JSON Server in directory "handsOnHTTPrequests"
 command: npx json-server --watch back-end/db.json
+
+
+# Theme: Client-side Storages
+
+- Solution of the Task2 - TodoApp with client-side storage
+
+```
+Description:
+- Implement your todoApp project with ability to save todos data on browser
+- The only requirement is the data to be accessible after the user close browser window
+```
