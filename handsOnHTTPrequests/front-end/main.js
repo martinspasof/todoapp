@@ -1,7 +1,9 @@
-function render(todos){
+function render(todos){	
 	let styleStrikeThrough = '';
 	let checked = '';
-	let liStr = '';
+	let liStr = '';	
+	let todoId = 0;
+	saveToLocalStorage('todos', JSON.stringify(todos));
 
 	todos.forEach(todo => {
 		styleStrikeThrough = '';
@@ -10,6 +12,11 @@ function render(todos){
 			styleStrikeThrough = ' class="strikethrough" ';
 			checked = 'checked';
 		}
+		
+		if(todo.id == todoId){
+			todo.id = todos.length + 1;			
+		}
+		todoId = todo.id;
 		liStr += `<li><span>${todo.id}</span>. 
 		<span ${styleStrikeThrough} >${todo.title}</span> 
 		<input type='checkbox' data-update-id=${todo.id} data-title-todo=${todo.title} data-checked=${checked} ${checked}/>
@@ -26,11 +33,12 @@ function get_todos(url) {
 		.then(res => {
 			return processResponse(res);
 		})
-		.then(data => {
+		.then(data => {		
 			todos = [...data];
-			render(todos);
+			render(todos);			
 		})
 		.catch(err => {
+			render([...todos]);
 			console.log(err);
 		})
 }
@@ -55,9 +63,13 @@ function delete_todo(id) {
 		get_todos(api + '/todos');
 	})
 	.catch(err => {
+		todos = todos.filter(function (todo) {
+			return todo.id != id;
+		});
+
+		render([...todos]);
 		console.log(err);
 	})
-
 }
 
 function add_todo(todoTitle) {
@@ -81,6 +93,9 @@ function add_todo(todoTitle) {
 		render(todos);
 	})
 	.catch(err => {
+		todo.id = todos.length + 1;
+		todos.push(todo);
+		render([...todos]);
 		console.log(err);
 	})
 }
@@ -102,8 +117,30 @@ function update_todo(id, todoTitle, completed) {
 		get_todos(api + '/todos');
 		return processResponse(res);
 	}).catch(err => {
+
+		todos.forEach(todoKey => {
+			console.log(todoKey.id,id)
+			if(todoKey.id == id){
+				todoKey.title = todo.title;
+				todoKey.completed = todo.completed;
+			}
+		})
+
+		render([...todos], err);
 		console.log(err);
 	})
+}
+
+function saveToLocalStorage(key, value) {
+	// save to local storage
+	ls = window.localStorage;
+	ls.setItem(key,value);
+}
+
+function readFromLocalStorage(key) {
+	// save to local storage
+	let ls = window.localStorage;
+	return ls.getItem(key);
 }
 
 const dom = {
@@ -115,7 +152,8 @@ const dom = {
 
 api = 'http://localhost:3000'
 
-todos = [];
+const todosStr = readFromLocalStorage('todos');
+todos = JSON.parse(todosStr);
 
 window.onload = function (e) {
 	get_todos(api + '/todos');
@@ -137,10 +175,8 @@ dom.todos.addEventListener('click', function (e) {
 	}
 })
 
-
-
 dom.btnAdd.addEventListener('click', function (e) {
-	const todoTitle = dom.todoInput.value;
+	const todoTitle = dom.todoInput.value;	
 	add_todo(todoTitle);
 })
 
