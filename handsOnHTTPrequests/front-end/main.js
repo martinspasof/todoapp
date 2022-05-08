@@ -119,14 +119,13 @@ function update_todo(id, todoTitle, completed) {
 	}).catch(err => {
 
 		todos.forEach(todoKey => {
-			console.log(todoKey.id,id)
 			if(todoKey.id == id){
 				todoKey.title = todo.title;
 				todoKey.completed = todo.completed;
 			}
 		})
 
-		render([...todos], err);
+		render([...todos]);
 		console.log(err);
 	})
 }
