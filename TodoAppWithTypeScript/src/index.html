@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>index </title>
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
+	<style>
+		.todos{
+			border: 1px solid red;
+			background-color: green;
+			
+		}
+
+		ul{
+			font-size: 21px;
+			list-style-type: none;
+			color: white;
+		}
+
+		.strikethrough {
+            text-decoration: line-through;
+        }
+
+		.img{
+			height: 23px;
+			width: 23px;
+		}
+		input[type="checkbox" i] {
+			height: 23px;
+			width: 23px;
+		}
+		.total-items{
+			color: green;
+            font-size: 25px;
+		}
+	</style>
+</head>
+<body>
+	<h1 style="color: yellowgreen;">Simple Todo App</h1>
+	<div class="add-todo">
+		<input type="text" placeholder="add todo title" style="width: 284px; height: 23px;">
+		<button id="btn-add" style="width: 61px; height: 31px;">Add</button>
+	</div>
+	<hr>
+	<ul class="todos">
+		<!-- <li><span>1</span>.<span>Learn HTML</span>-<span>false</span><button>X</button></li> -->
+	</ul>
+
+	<div class="total-items"></div>
+
+	<script src="./typescript.js"></script>
+</body>
+</html>
