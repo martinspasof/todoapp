@@ -37,3 +37,15 @@ Description:
 
 - Please Start JSON Server
 command: npm run start-json-server
+
+## Theme: React JSX
+## Theme: Rendering lists in React
+## ReactTasks folder
+
+- Solution of the Task1 - HTML list from arry of numbers
+
+```
+Description:
+- Create the test-app we have created in classes.
+- Add a new functional component 
+```
