@@ -42,7 +42,7 @@ command: npm run start-json-server
 ## Theme: Rendering lists in React
 ## ReactTasks folder
 
-- Solution of the Task1 - HTML list from arry of numbers
+- Solution of the Task1 - HTML list from array of numbers
 
 ```
 Description:
