@@ -1,0 +1,26 @@
+body{
+    background-color: gray;
+}
+
+.odd {
+    border-style: solid;
+    border-color: rgb(54, 62, 206);
+  }
+
+.even {
+    border-style: solid;
+    border-color: rgb(188, 51, 51);
+}
+
+#btn-add{
+    width: 61px; height: 31px;
+}
+
+#input-text-field{
+    width: 284px; height: 23px;
+}
+
+.img{
+    height: 23px;
+    width: 23px;
+}
