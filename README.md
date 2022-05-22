@@ -49,3 +49,9 @@ Description:
 - Create the test-app we have created in classes.
 - Add a new functional component 
 ```
+
+## Theme: React Props and State
+```
+Description:
+- Change structure of folders - Todos elements with separate Todo in folder Components.
+```

@@ -1,9 +1,9 @@
-import {Todos}  from "./Components/Todos/script";
+import {RenderList}  from "./script";
 
 function App() {
   return (
     <div className="App">
-      <Todos/>
+      <RenderList/>
     </div>
   );
 }
